@@ -1,0 +1,6 @@
+commands:
+
+docker run --rm -i \
+  -v "/Users/klausmueller/Documents/neo4j/javascript-driver/GraphQL:/scripts" \
+  -w /scripts \
+  grafana/k6 run test.js
