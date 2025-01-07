@@ -1,6 +1,5 @@
-// resolvers.js
 import { randomUUID } from "crypto";
-import { write } from "./neo4j-utils.js"; 
+import { write } from "./neo4j-utils.js";
 
 export default {
   Mutation: {
@@ -14,7 +13,8 @@ export default {
           updatedAt: nowDate,
         };
 
-        await write(`
+        const startTime = Date.now();
+        const result = await write(`
           CREATE(n:TestNode {
             id: $id,
             name: $name,
@@ -23,11 +23,13 @@ export default {
             })`,
           params
         );
+        const endTime = Date.now();
+        console.log(`GraphQL Mutation Latency: ${endTime - startTime} ms`);
+
 
         return "success";
       } catch (error) {
         console.error(`[CREATE_TEST_NODE] Error: `, error);
-        // Consider throwing an error or returning a user-friendly message
         throw new Error("Failed to create test node");
       }
     },
